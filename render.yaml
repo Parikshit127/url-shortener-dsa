@@ -2,7 +2,7 @@ services:
   - type: web
     name: url-shortener-dsa
     env: python
-    buildCommand: pip install -r requirements.txt && g++ -o url_shortener src/url_shortener.cpp
+    buildCommand: pip install -r requirements.txt && g++ -std=c++17 -o url_shortener src/url_shortener.cpp
     startCommand: gunicorn server:app --bind 0.0.0.0:$PORT
     envVars:
       - key: PYTHON_VERSION

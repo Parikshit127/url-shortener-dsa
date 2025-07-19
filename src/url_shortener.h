@@ -158,8 +158,7 @@ public:
     }
 };
 
-template<typename K, typename V>
-const double HashMap<K, V>::LOAD_FACTOR_THRESHOLD = 0.75;
+
 
 class URLShortener {
 private:

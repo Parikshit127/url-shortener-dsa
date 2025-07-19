@@ -5,6 +5,13 @@
 
 using namespace std;
 
+// Define the static member for HashMap template
+template<typename K, typename V>
+const double HashMap<K, V>::LOAD_FACTOR_THRESHOLD = 0.75;
+
+// Explicit template instantiation for the types we use
+template class HashMap<string, string>;
+
 URLShortener::URLShortener(const string& filename) 
     : dataFile(filename), counter(0) {
     loadFromFile();
@@ -174,14 +181,15 @@ void URLShortener::printAllURLs() {
     cout << "Format: Short URL -> Long URL" << endl;
     cout << "========================\n" << endl;
     
-    // Note: This is a simplified print - in a real implementation,
-    // you'd need to iterate through the hashmap properly
-    cout << "URL listing functionality would be implemented here." << endl;
+    // Print all URLs from storage
+    for (const auto& urlPair : urlStorage) {
+        cout << "Short: " << urlPair.first << " | Long: " << urlPair.second << endl;
+    }
 }
 
 void URLShortener::printStats() {
     cout << "\n=== URL Shortener Statistics ===" << endl;
-    cout << "Total URLs stored: " << urlMap.getSize() << endl;
+    cout << "Total URLs: " << urlMap.getSize() << endl;
     cout << "Data file: " << dataFile << endl;
     cout << "================================\n" << endl;
     
@@ -192,12 +200,13 @@ void URLShortener::clearAll() {
     urlMap.clear();
     shortToLongMap.clear();
     urlStorage.clear();
-    cout << "All URLs cleared from memory." << endl;
+    cout << "All URLs cleared successfully." << endl;
 }
 
 void URLShortener::reloadFromFile() {
     urlMap.clear();
     shortToLongMap.clear();
+    urlStorage.clear();
     loadFromFile();
 }
 
