@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 import subprocess
 import json
 import os
@@ -43,18 +42,23 @@ def run_cpp_command(commands):
 def index():
     return send_from_directory('web', 'index.html')
 
-@app.route('/<filename>')
-def static_files(filename):
-    if filename in ['style.css', 'script.js']:
-        return send_from_directory('web', filename)
-    return "File not found", 404
+@app.route('/style.css')
+def style_css():
+    return send_from_directory('web', 'style.css')
+
+@app.route('/script.js')
+def script_js():
+    return send_from_directory('web', 'script.js')
 
 @app.route('/<shortcode>')
 def redirect_short_url(shortcode):
+    print(f"Redirect request for shortcode: {shortcode}")
     # Handle redirect for short URLs
     if re.match(r'^[A-Za-z0-9]{6,8}$', shortcode):
+        print(f"Shortcode {shortcode} matches pattern")
         # Look up the original URL using the backend
         output = run_cpp_command([2, shortcode, 7])
+        print(f"C++ output: {output}")
         if output:
             lines = output.split('\n')
             original_url = None
@@ -62,8 +66,13 @@ def redirect_short_url(shortcode):
                 if 'Original URL:' in line:
                     original_url = line.split('Original URL:')[1].strip()
                     break
+            print(f"Found original URL: {original_url}")
             if original_url and original_url != 'NOT_FOUND':
                 return redirect(original_url, code=302)
+        else:
+            print("No output from C++ backend")
+    else:
+        print(f"Shortcode {shortcode} does not match pattern")
     
     # If not found, show a 404 page
     return "Short URL not found", 404

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Shortener - DSA Project</title>
+    <meta name="description" content="URL Shortener built with custom HashMap implementation using separate chaining collision resolution and Base62 encoding.">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔗</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-link"></i>
+                <h1>URL Shortener</h1>
+            </div>
+            <p class="subtitle">DSA Project - Custom HashMap Implementation</p>
+        </header>
+
+        <main class="main-content">
+            <div class="url-form">
+                <h2>URL Shortener Operations</h2>
+
+                <!-- Shorten URL Section -->
+                <div class="operation-section">
+                    <h3><i class="fas fa-cut"></i> Shorten URL</h3>
+                    <div class="input-group">
+                        <input type="url" id="longUrl" placeholder="Enter your long URL here (e.g. https://example.com/very/long/path)" autocomplete="off">
+                        <button type="button" id="shortenBtn">
+                            <i class="fas fa-cut"></i>
+                            Shorten
+                        </button>
+                    </div>
+
+                    <div class="result" id="result" style="display: none;">
+                        <h4>Your Shortened URL:</h4>
+                        <div class="short-url-display">
+                            <input type="text" id="shortUrl" readonly>
+                            <button type="button" id="copyBtn">
+                                <i class="fas fa-copy"></i>
+                                Copy
+                            </button>
+                        </div>
+                        <div class="direct-link-section">
+                            <a href="#" id="directLink" target="_blank" class="direct-link-btn">
+                                <i class="fas fa-external-link-alt"></i>
+                                Open Shortened URL
+                            </a>
+                        </div>
+                        <div class="url-info">
+                            <p><strong>Original URL:</strong> <span id="originalUrl"></span></p>
+                            <p><strong>Generated:</strong> <span id="timestamp"></span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Expand URL Section -->
+                <div class="operation-section">
+                    <h3><i class="fas fa-expand"></i> Expand URL</h3>
+                    <div class="input-group">
+                        <input type="text" id="shortUrlInput" placeholder="Enter short code to expand (e.g. ABC123)" autocomplete="off">
+                        <button type="button" id="expandBtn">
+                            <i class="fas fa-expand"></i>
+                            Expand
+                        </button>
+                    </div>
+
+                    <div class="result" id="expandResult" style="display: none;">
+                        <h4>Original URL:</h4>
+                        <div class="url-display">
+                            <input type="text" id="expandedUrl" readonly>
+                            <button type="button" id="copyExpandedBtn">
+                                <i class="fas fa-copy"></i>
+                                Copy
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Previous URLs Section -->
+                <div class="operation-section">
+                    <h3><i class="fas fa-history"></i> Previous Shortened URLs</h3>
+                    <div id="previousUrlsList" class="previous-urls-list">
+                        <p class="empty-state">No URLs shortened yet. Try shortening one above!</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="features">
+                <h2>How It Works</h2>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <i class="fas fa-bolt"></i>
+                        <h3>O(1) Lookup</h3>
+                        <p>Custom HashMap with separate chaining gives constant-time average performance</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-shield-alt"></i>
+                        <h3>Collision Safe</h3>
+                        <p>Separate chaining handles hash collisions gracefully with linked list buckets</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-hashtag"></i>
+                        <h3>DJB2 Hashing</h3>
+                        <p>Uses Daniel Bernstein's hash function (hash * 33 + c) for string hashing</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-code"></i>
+                        <h3>Base62 Encoding</h3>
+                        <p>Converts hash to URL-safe codes using 0-9, A-Z, a-z (62 characters)</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stats">
+                <h2>Live HashMap Statistics</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalUrls">0</div>
+                        <div class="stat-label">Total URLs</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="loadFactor">0%</div>
+                        <div class="stat-label">Load Factor</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="maxChain">0</div>
+                        <div class="stat-label">Max Chain Length</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="utilization">0%</div>
+                        <div class="stat-label">Bucket Utilization</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>&copy; 2025 URL Shortener - DSA Project. Custom HashMap with Separate Chaining &amp; Base62 Encoding.</p>
+        </footer>
+    </div>
+
+    <script src="/script.js"></script>
+</body>
+</html>

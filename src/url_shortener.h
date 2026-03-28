@@ -165,40 +165,17 @@ private:
     HashMap<std::string, std::string> urlMap;
     HashMap<std::string, std::string> shortToLongMap;
     std::string dataFile;
-    int counter;
-    
-    // Simple storage for URLs (since HashMap doesn't have iteration)
     std::vector<std::pair<std::string, std::string>> urlStorage;
-    
-    // Custom hash function for URLs
     std::string generateHash(const std::string& url);
-    
-    // Base62 encoding
     std::string toBase62(unsigned long long num);
-    
-    // URL validation
     bool isValidURL(const std::string& url);
-    
-    // File operations
     void loadFromFile();
     void saveToFile();
-    
 public:
     URLShortener(const std::string& filename = "data/urls.txt");
     ~URLShortener();
-    
-    // Core functionality
     std::string shortenURL(const std::string& longURL);
     std::string getLongURL(const std::string& shortURL);
-    
-    // Utility functions
-    void printAllURLs();
-    void printStats();
-    void clearAll();
-    
-    // File operations
-    void reloadFromFile();
-    void saveToFileNow();
 };
 
 #endif 

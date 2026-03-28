@@ -58,6 +58,12 @@ logs/
 *.tmp
 *.temp
 
-# URL data files (optional - remove if you want to track URL data)
+# URL data files
 urls.txt
-url_data.txt 
+url_data.txt
+
+# Vercel
+.vercel/
+
+# Build artifacts
+obj/ 

@@ -173,43 +173,4 @@ void URLShortener::saveToFile() {
     }
     
     file.close();
-}
-
-void URLShortener::printAllURLs() {
-    cout << "\n=== All Stored URLs ===" << endl;
-    cout << "Total URLs: " << urlMap.getSize() << endl;
-    cout << "Format: Short URL -> Long URL" << endl;
-    cout << "========================\n" << endl;
-    
-    // Print all URLs from storage
-    for (const auto& urlPair : urlStorage) {
-        cout << "Short: " << urlPair.first << " | Long: " << urlPair.second << endl;
-    }
-}
-
-void URLShortener::printStats() {
-    cout << "\n=== URL Shortener Statistics ===" << endl;
-    cout << "Total URLs: " << urlMap.getSize() << endl;
-    cout << "Data file: " << dataFile << endl;
-    cout << "================================\n" << endl;
-    
-    urlMap.printStats();
-}
-
-void URLShortener::clearAll() {
-    urlMap.clear();
-    shortToLongMap.clear();
-    urlStorage.clear();
-    cout << "All URLs cleared successfully." << endl;
-}
-
-void URLShortener::reloadFromFile() {
-    urlMap.clear();
-    shortToLongMap.clear();
-    urlStorage.clear();
-    loadFromFile();
-}
-
-void URLShortener::saveToFileNow() {
-    saveToFile();
 } 

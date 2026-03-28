@@ -4,6 +4,8 @@
 #include <utility>
 #include <cmath>
 
+using namespace std;
+
 template<typename K, typename V>
 class HashMap {
 private:
@@ -13,23 +15,23 @@ private:
         Node(const K& k, const V& v) : key(k), value(v) {}
     };
     
-    std::list<Node>* table;
+    list<Node>* table;
     int capacity;
     int size;
     static const int DEFAULT_CAPACITY = 100;
     static const double LOAD_FACTOR_THRESHOLD;
     
     int hash(const K& key) const {
-        std::hash<K> hasher;
+        hash<K> hasher;
         return hasher(key) % capacity;
     }
     
     void resize() {
         int oldCapacity = capacity;
-        std::list<Node>* oldTable = table;
+        list<Node>* oldTable = table;
         
         capacity *= 2;
-        table = new std::list<Node>[capacity];
+        table = new list<Node>[capacity];
         size = 0;
         
         for (int i = 0; i < oldCapacity; i++) {
@@ -43,7 +45,7 @@ private:
     
 public:
     HashMap() : capacity(DEFAULT_CAPACITY), size(0) {
-        table = new std::list<Node>[capacity];
+        table = new list<Node>[capacity];
     }
     
     ~HashMap() {
@@ -125,10 +127,10 @@ public:
     
     // Print hashmap statistics
     void printStats() const {
-        std::cout << "Hashmap Statistics:" << std::endl;
-        std::cout << "Size: " << size << std::endl;
-        std::cout << "Capacity: " << capacity << std::endl;
-        std::cout << "Load Factor: " << (double)size / capacity << std::endl;
+        cout << "Hashmap Statistics:" << endl;
+        cout << "Size: " << size << endl;
+        cout << "Capacity: " << capacity << endl;
+        cout << "Load Factor: " << (double)size / capacity << endl;
         
         int maxChainLength = 0;
         int emptyBuckets = 0;
@@ -143,9 +145,9 @@ public:
             }
         }
         
-        std::cout << "Max Chain Length: " << maxChainLength << std::endl;
-        std::cout << "Empty Buckets: " << emptyBuckets << std::endl;
-        std::cout << "Utilization: " << (double)(capacity - emptyBuckets) / capacity * 100 << "%" << std::endl;
+        cout << "Max Chain Length: " << maxChainLength << endl;
+        cout << "Empty Buckets: " << emptyBuckets << endl;
+        cout << "Utilization: " << (double)(capacity - emptyBuckets) / capacity * 100 << "%" << endl;
     }
 };
 
