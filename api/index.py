@@ -10,9 +10,14 @@ for serverless deployment on Vercel. The DSA concepts are identical:
 - Dynamic resizing when load factor exceeds threshold
 """
 
-from flask import Flask, request, jsonify, redirect
+from flask import Flask, request, jsonify, redirect, send_from_directory
+import os
 import time
 import re
+
+# Resolve the public/ directory (works both locally and on Vercel)
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+PUBLIC_DIR = os.path.join(BASE_DIR, 'public')
 
 app = Flask(__name__)
 
@@ -387,16 +392,28 @@ def api_test():
     return jsonify({'success': True, 'test_results': results})
 
 
-@app.route('/<path:shortcode>')
-def redirect_short(shortcode):
-    """
-    Catch-all route for short code redirects.
-    If the path matches a valid shortcode pattern (6-8 alphanumeric chars),
-    look it up and redirect. Otherwise return 404.
-    """
-    if re.match(r'^[A-Za-z0-9]{6,8}$', shortcode):
-        original = shortener.expand(shortcode)
+# ============================================================
+# Static file serving (for local development)
+# On Vercel, public/ is served automatically; these routes
+# act as a fallback when running with `flask run` locally.
+# ============================================================
+
+@app.route('/')
+def serve_index():
+    return send_from_directory(PUBLIC_DIR, 'index.html')
+
+
+@app.route('/<path:filename>')
+def serve_static_or_redirect(filename):
+    # First, try serving a static file from public/
+    static_path = os.path.join(PUBLIC_DIR, filename)
+    if os.path.isfile(static_path):
+        return send_from_directory(PUBLIC_DIR, filename)
+
+    # Otherwise, check if it's a valid shortcode redirect
+    if re.match(r'^[A-Za-z0-9]{6,8}$', filename):
+        original = shortener.expand(filename)
         if original:
             return redirect(original, code=302)
 
-    return jsonify({'error': 'Short URL not found'}), 404
+    return jsonify({'error': 'Not found'}), 404
